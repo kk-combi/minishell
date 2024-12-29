@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   built_cmd4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
+/*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 21:14:22 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/22 20:29:36 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2024/12/28 11:14:17 by kasasaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 
 static int	print_error2(int error, const char *arg)
 {
-	int		i;
+	int	i;
 
 	if (error == -1)
 		ft_putstr_fd("export: not valid in this context: ", STDERR);
@@ -32,7 +33,7 @@ static int	print_error2(int error, const char *arg)
 
 char	*get_env_name(char *dest, const char *src)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (src[i] && src[i] != '=' && ft_strlen(src) < BUFF_SIZE)
@@ -66,8 +67,8 @@ int	is_in_env(t_env *env, char *args)
 
 int	ft_export(char **args, t_env *env, t_env *secret)
 {
-	int		new_env;
-	int		error_ret;
+	int	new_env;
+	int	error_ret;
 
 	new_env = 0;
 	if (!args[1])

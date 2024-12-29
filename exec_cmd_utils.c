@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
+/*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 21:22:30 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/15 20:57:37 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2024/12/28 11:12:05 by kasasaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	mini_exit(t_mini *mini, char **cmd)
 	ft_putstr_fd("exit ", STDERR);
 	if (cmd[1])
 		ft_putendl_fd("❤️", STDERR);
-		if (cmd[1] && cmd[2])
+	if (cmd[1] && cmd[2])
 	{
 		mini->ret = 1;
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR);
@@ -49,7 +49,7 @@ void	mini_exit(t_mini *mini, char **cmd)
 
 int	exec_builtin(char **args, t_mini *mini)
 {
-	int		result;
+	int	result;
 
 	result = 0;
 	if (ft_strcmp(args[0], "echo") == 0)

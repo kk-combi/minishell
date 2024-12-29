@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
+/*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:28:30 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/22 22:07:33 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2024/12/28 13:02:12 by kasasaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-//signal 
-//exec cd / echo current / 
-// 
-// code explan 
+// signal
+// exec cd / echo current /
+//
+// code explan
 // tokyo plannning
 
+t_sig	g_sig;
 
-t_sig g_sig;
-
-void minishell(t_mini *mini)//here is strange cmd is not done
+void	minishell(t_mini *mini) // here is strange cmd is not done
 {
-	t_token	*token;
-	int		status;
+	t_token *token;
+	int status;
 
 	token = next_run(mini->start, NOSKIP);
 	if (is_types(mini->start, "TAI"))
 		token = mini->start->next;
 	while (mini->exit == 0 && token)
 	{
-		mini->charge = 1;//what is ?
-		mini->parent = 1;//signal
-		mini->last = 1;//
+		mini->charge = 1; // what is ?
+		mini->parent = 1; // signal
+		mini->last = 1;   //
 		redir_and_exec(mini, token);
 		reset_std(mini);
 		close_fds(mini);
@@ -42,7 +41,7 @@ void minishell(t_mini *mini)//here is strange cmd is not done
 		status = WEXITSTATUS(status);
 		if (mini->last == 0)
 			mini->ret = status;
-		if(mini->parent == 0)
+		if (mini->parent == 0)
 		{
 			free_token(mini->start);
 			exit(mini->ret);
@@ -52,13 +51,13 @@ void minishell(t_mini *mini)//here is strange cmd is not done
 	}
 }
 
-int main(int argc, char **argv, char **ev)
+int	main(int argc, char **argv, char **ev)
 {
 	t_mini	mini;
+	char	*line;
 
 	(void)argc;
 	(void)argv;
-
 	mini.exit = 0;
 	mini.ret = 0;
 	mini.no_exec = 0;
@@ -72,7 +71,7 @@ int main(int argc, char **argv, char **ev)
 	while (1)
 	{
 		rl_set_prompt("");
-		char *line = readline("> ");
+		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, "exit") == 0)
 			return (free(line), 0);
 		g_sig.sigint = 0;
@@ -80,8 +79,7 @@ int main(int argc, char **argv, char **ev)
 		g_sig.pid = 0;
 		g_sig.exit_status = 0;
 		parse(&mini, line);
-		if (mini.start != NULL && \
-			check_line(&mini, mini.start))
+		if (mini.start != NULL && check_line(&mini, mini.start))
 			minishell(&mini);
 		add_history(line);
 		free_token(mini.start);
@@ -91,8 +89,8 @@ int main(int argc, char **argv, char **ev)
 	return (mini.ret);
 }
 
-//1. unset variable 
-//2. norminette 
-//3. pippe checking 
-//4. ctrl + C
-//5. history 
+// 1. unset variable
+// 2. norminette
+// 3. pippe checking
+// 4. ctrl + C
+// 5. history
