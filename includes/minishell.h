@@ -6,7 +6,7 @@
 /*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 19:34:07 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/29 16:44:01 by kasasaki         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:55:13 by kasasaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int					ft_isalnum(int c);
 int					ft_isdigit(int c);
 void				mini_exit(t_mini *mini, char **cmd);
 void				free_tab(char **tab);
+char				**ft_split(char const *s, char c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					has_pipe(t_token *token);
 int					exec_builtin(char **args, t_mini *mini);
@@ -177,7 +178,9 @@ int					exec_bin(char **args, t_env *env, t_mini *mini);
 char				*get_env_value(char *arg, t_env *env);
 size_t				size_env(t_env *lst);
 int					ft_strisnum(const char *str);
+int					ft_atoi(const char *str);
 int					ft_env(t_env *env);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
 void				ft_skip_spacenl(const char *str, int *i);
 int					check_line(t_mini *mini, t_token *token);
 void				free_env(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:28:30 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/29 16:43:35 by kasasaki         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:02:12 by kasasaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ int	main(int argc, char **argv, char **ev)
 	shell_level(mini.env);
 	while (1)
 	{
+		rl_set_prompt("");
 		line = readline("> ");
-		if (line == NULL || ft_strcmp(line, "exit") == 1)
+		if (line == NULL || ft_strcmp(line, "exit") == 0)
 			return (free(line), 0);
 		g_sig.sigint = 0;
 		g_sig.sigquit = 0;
