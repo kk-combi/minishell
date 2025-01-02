@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kasasaki <kasasaki@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 20:28:30 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/29 16:43:35 by kasasaki         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:01:54 by shoumakobay      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 t_sig	g_sig;
 
-void	minishell(t_mini *mini) // here is strange cmd is not done
+void	minishell(t_mini *mini)
 {
 	t_token *token;
 	int status;
@@ -30,9 +30,9 @@ void	minishell(t_mini *mini) // here is strange cmd is not done
 		token = mini->start->next;
 	while (mini->exit == 0 && token)
 	{
-		mini->charge = 1; // what is ?
-		mini->parent = 1; // signal
-		mini->last = 1;   //
+		mini->charge = 1;
+		mini->parent = 1;
+		mini->last = 1;
 		redir_and_exec(mini, token);
 		reset_std(mini);
 		close_fds(mini);
@@ -58,25 +58,32 @@ int	main(int argc, char **argv, char **ev)
 
 	(void)argc;
 	(void)argv;
-	mini.exit = 0;
-	mini.ret = 0;
-	mini.no_exec = 0;
-	mini.fdin = -1;
-	mini.fdout = -1;
-	mini.pipin = -1;
-	mini.pipout = -1;
-	mini.pid = -1;
+	//minishell の初期値を設定
+	mini.exit = 0;//exit 1 EXIT実行　0 minishell継続
+	mini.ret = 0;//関数の戻り値を格納
+	mini.no_exec = 0;//関数を実行できたかどうか 0 未実行 1 実行済み
+	mini.fdin = -1;//ファイルディスプリクタ入力
+	mini.fdout = -1;//ファイルディスプリクタ出力
+	mini.pipin = -1;//パイプの入力
+	mini.pipout = -1;//パイプの出力
+	mini.pid = -1;//プロセスID
+	//環境変数の取得
 	env_init(&mini, ev);
+	//SHELL LEVEL (シェルの深さを表す環境変数の再設定)
 	shell_level(mini.env);
 	while (1)
 	{
+		//コマンドプロンプトの表示
 		line = readline("> ");
+		//line がない・EXITがある場合にコマンド終了
 		if (line == NULL || ft_strcmp(line, "exit") == 1)
 			return (free(line), 0);
+		//signal関数のための初期値設定
 		g_sig.sigint = 0;
 		g_sig.sigquit = 0;
 		g_sig.pid = 0;
 		g_sig.exit_status = 0;
+		//line をトークンの構造体に入れ替え
 		parse(&mini, line);
 		if (mini.start != NULL && check_line(&mini, mini.start))
 			minishell(&mini);

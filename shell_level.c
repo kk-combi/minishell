@@ -6,7 +6,7 @@
 /*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:02:48 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/17 21:23:44 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2025/01/02 16:22:36 by shoumakobay      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,16 @@ void	shell_level(t_env *env)
 	char	*shlvl;
 	char	*shell_level_value;
 
-	shell_level_value = get_env_value("SHLVL", env);
-	if (strcmp(shell_level_value, "") == 0)
+
+	shell_level_value = get_env_value("SHLVL", env);//env構造体からSHLVLの値を取得
+	if (strcmp(shell_level_value, "") == 0)//取得できないならMAINに戻る（ない場合のエラーはない）
 		return ;
-	shell_level = get_lvl(shell_level_value) + 1;
-	ft_memdel(shell_level_value);
+	shell_level = get_lvl(shell_level_value) + 1;//今のSHELL LEVELを＋１する
+	ft_memdel(shell_level_value);//shell_level_valueのメモリーをフリー
 	while (env && env->next)
 	{
-		get_env_name(env_name, env->value);
-		if (strcmp("SHLVL", env_name) == 0)
+		get_env_name(env_name, env->value);//env->value から構造体の名前をenv_nameに格納
+		if (strcmp("SHLVL", env_name) == 0)//env_nameがSHLVLと一致する場合にSHLVLの更新
 		{
 			ft_memdel(env->value);
 			shlvl = ft_itoa(shell_level);

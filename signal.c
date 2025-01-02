@@ -6,7 +6,7 @@
 /*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:38:06 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/16 20:41:26 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2025/01/02 16:27:01 by shoumakobay      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	sig_quit(int code)
 {
 	char	*nbr;
 
-	nbr = ft_itoa(code);
+	nbr = ft_itoa(code);//code を何か利用できないか考えたが、特に不要
 	if (g_sig.pid != 0)
 	{
 		write(1, "", 1);

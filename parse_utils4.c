@@ -6,7 +6,7 @@
 /*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:12:10 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/15 21:55:53 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2025/01/02 23:45:10 by shoumakobay      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*prev_sep(t_token *token, int skip)
 {
 	if (token && skip)
 		token = token->prev;
-	while (token && token->type < TRUNC)
+	while (token && token->type < TRUNC)//EMPTY CMD ARGのコマンドが発見され続ける間。継続
 		token = token->prev;
 	return (token);
 }

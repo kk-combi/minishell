@@ -6,13 +6,13 @@
 /*   By: shoumakobayashi <shoumakobayashi@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 21:40:29 by shoumakobay       #+#    #+#             */
-/*   Updated: 2024/12/18 20:41:36 by shoumakobay      ###   ########.fr       */
+/*   Updated: 2025/01/02 23:10:56 by shoumakobay      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ignore_sep(char *line, int i)
+int	ignore_sep(char *line, int i)//バックスラッシュかつセパレーター(;, |, >, >>)であれば、戻り値1 (次で処理させない) 0(処理OK)
 {
 	if (line[i] && line[i] == '\\' && line[i + 1] && line[i + 1] == ';')
 		return (1);
@@ -37,17 +37,17 @@ int	quotes(char *line, int index)
 	{
 		if (i > 0 && line[i - 1] == '\\')
 			;
-		else if (open == 0 && line[i] == '\"')
+		else if (open == 0 && line[i] == '\"')//最初にダブルクオテーションで囲われていたら
 			open = 1;
-		else if (open == 0 && line[i] == '\'')
+		else if (open == 0 && line[i] == '\'')//最初にシングルクオテーションで囲われていたら
 			open = 2;
-		else if (open == 1 && line[i] == '\"')
+		else if (open == 1 && line[i] == '\"')//最後にダブルクオテーションで囲われていたら
 			open = 0;
-		else if (open == 2 && line[i] == '\'')
+		else if (open == 2 && line[i] == '\'')//最後にシングルクオテーションで囲われていたら
 			open = 0;
 		i++;
 	}
-	return (open);
+	return (open);//0 クオテーションで最初から最後まで囲われている　1 2 最初か最後どちらかに囲われている
 }
 
 int	quote_check(t_mini *mini, char **line)
@@ -72,14 +72,14 @@ char	*space_line(char *line)
 	j = 0;
 	new = space_alloc(line);
 	while (new && line[i])
-	{
+	{//ダブルクオテーションで囲われており、$の前には\がないと判断した場合
 		if (quotes(line, i) != 2 && line[i] == '$' && i && line[i - 1] != '\\')
-			new[j++] = (char)(-line[i++]);
-		else if (quotes(line, i) == 0 && is_sep(line, i))
-		{
+			new[j++] = (char)(-line[i++]);//$の値をマイナス反転
+		else if (quotes(line, i) == 0 && is_sep(line, i))//クオテーションで囲われており、セパレーター(<>|;)がある場合
+		{//new変数を格納する前にセパレーター(<>|;)の前に空白を入れる
 			new[j++] = ' ';
 			new[j++] = line[i++];
-			if (quotes(line, i) == 0 && line[i] == '>')
+			if (quotes(line, i) == 0 && line[i] == '>')//クオテーションで囲われており、>の場合は空白を入れる前にスペースを追加
 				new[j++] = line[i++];
 			new[j++] = ' ';
 		}
